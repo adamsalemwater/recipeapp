@@ -88,23 +88,15 @@ export class RecipeEditComponent implements OnInit {
   }
   
   removeIngredient(index: number) {
-    // this.ingredients.controls.splice(index, 1);
     this.ingredientArray.removeAt(index);
   }
 
   onCancel() {
     this.setForm(this.initialRecipe);
     console.dir(this.recipeForm.value);
-    // this.recipeForm.reset();
-  //   this.router.navigate(['../'], {relativeTo: this.route})
-  }
+    }
 
   onSubmit() {
-    // const newRecipe = new Recipe(
-    // this.recipeForm.value['name'],
-    // this.recipeForm.value['description'],
-    // this.recipeForm.value['imagePath'],
-    // this.recipeForm.value['ingredients'])
      if (this.editMode == true) {
       this.recipeService.replaceRecipe(this.id, this.recipeForm.value)
     } else {
