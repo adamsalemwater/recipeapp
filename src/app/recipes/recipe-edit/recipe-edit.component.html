@@ -1,0 +1,67 @@
+<div class="row">
+    <div class="col-xs-12">
+        <form [formGroup]="recipeForm">
+            <div class="row">
+                <div class="col-xs-12">
+                    <button type="button"
+                     class="btn btn-success"
+                     [disabled]="!recipeForm.valid" (click)="onSubmit()">Save</button>
+                    <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="recipeName" class="form-control" formControlName="recipeName">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="image">Image URL</label>
+                        <input type="text"
+                         id="imagePath" 
+                         class="form-control" 
+                         formControlName="imagePath"
+                         #imagePaths>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <img [src]="imagePaths" class="img-responsive">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea rows="6" type="text" id="description" class="form-control"
+                            formControlName="description"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12" formArrayName="ingredients">
+                    <div class="row" *ngFor="let ingredientControl of ingredientArray.controls; let i = index"
+                        [formGroupName]="i" style="margin-top: 10px;">
+                        <div class="col-xs-6">
+                            <input type="text" class="form-control" formControlName="ingredientName">
+                        </div>
+                        <div class="col-xs-4">
+                            <input type="number" class="form-control" formControlName="amount">
+                        </div>
+                        <div class="col-xs-2">
+                            <button class="btn btn-danger" (click)="removeIngredient(i)">X</button>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <button class="btn btn-success" (click)="addIngredientToArray()">Add Ingredient</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
