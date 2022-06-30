@@ -93,11 +93,9 @@ export class RecipeEditComponent implements OnInit {
 
   onCancel() {
     this.setForm(this.initialRecipe);
-    console.dir(this.recipeForm.value);
     }
 
   onSubmit() {
-    console.dir("Hi")
      if (this.editMode == true) {
       this.recipeService.replaceRecipe(this.id, this.recipeForm.value)
     } else {

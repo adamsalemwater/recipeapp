@@ -1,7 +1,7 @@
 .active{
-    color: #393475;
+    color: green;
     font-weight: bold;
-    /* border-radius: 3px; */
-    /* background-color: bisque; */
-    /* background-color: rgb(32, 116, 189); */
+    background-color: #eee;
+    border-radius: 3px; 
+    border: 1px solid green 
 }
