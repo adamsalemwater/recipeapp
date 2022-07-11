@@ -27,10 +27,13 @@ export class RecipeEditComponent implements OnInit {
     .subscribe(
       (params: Params) => {
         this.id = +params['id'];
-        this.recipe = this.recipeService.getRecipe(this.id);
-        this.initialRecipe = this.recipe;
-        this.editMode = (this.id != null);
-        this.setForm(this.recipe);
+        if (this.id) {
+          this.recipe = this.recipeService.getRecipe(this.id);
+          this.initialRecipe = this.recipe;
+          this.editMode = true;
+          this.setForm(this.recipe);
+        }  
+       
       }
     );
  
@@ -50,12 +53,11 @@ export class RecipeEditComponent implements OnInit {
     });
   }
 
-  setForm(recipe) {
+  setForm(recipe: Recipe) {
     
     this.recipeForm.get('recipeName').setValue(recipe.name);
     this.recipeForm.get('imagePath').setValue(recipe.imagePath);
     this.recipeForm.get('description').setValue(recipe.description);
-    this.recipeForm.get('recipeName').setValue(recipe.name);
     if(this.recipe.ingredients){
       (<FormArray>this.recipeForm.get('ingredients')).clear(); 
       for (let ingredient of recipe.ingredients) {
@@ -96,11 +98,11 @@ export class RecipeEditComponent implements OnInit {
     }
 
   onSubmit() {
-     if (this.editMode == true) {
+     if (this.editMode) {
       this.recipeService.replaceRecipe(this.id, this.recipeForm.value)
     } else {
       this.recipeService.addRecipe(this.recipeForm.value)
     }
-    this.onCancel();
+    // this.onCancel();
   }
 }
