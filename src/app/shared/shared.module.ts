@@ -21,7 +21,6 @@ import { PlaceholderDirective } from "./placeholder/placeholder.directive";
         PlaceholderDirective,
         DropdownDirective,
         CommonModule
-    ],
-    entryComponents: [AlertComponenet]
+    ]
 })
 export class SharedModule {}

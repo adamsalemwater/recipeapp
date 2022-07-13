@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Recipe } from '../recipe.model';
 import { RecipeService } from '../recipe.service';
@@ -12,7 +12,7 @@ import { RecipeService } from '../recipe.service';
 export class RecipeEditComponent implements OnInit {
 
   editMode = false;
-  recipeForm: FormGroup;
+  recipeForm: UntypedFormGroup;
   recipe: Recipe;
   initialRecipe:Recipe;
   id: number;
@@ -45,11 +45,11 @@ export class RecipeEditComponent implements OnInit {
   }
   
   initForm() {
-    this.recipeForm = new FormGroup({
-      'recipeName': new FormControl('', Validators.required),
-      'imagePath': new FormControl('', Validators.required),
-      'description': new FormControl('', Validators.required),
-      'ingredients': new FormArray([])
+    this.recipeForm = new UntypedFormGroup({
+      'recipeName': new UntypedFormControl('', Validators.required),
+      'imagePath': new UntypedFormControl('', Validators.required),
+      'description': new UntypedFormControl('', Validators.required),
+      'ingredients': new UntypedFormArray([])
     });
   }
 
@@ -59,12 +59,12 @@ export class RecipeEditComponent implements OnInit {
     this.recipeForm.get('imagePath').setValue(recipe.imagePath);
     this.recipeForm.get('description').setValue(recipe.description);
     if(this.recipe.ingredients){
-      (<FormArray>this.recipeForm.get('ingredients')).clear(); 
+      (<UntypedFormArray>this.recipeForm.get('ingredients')).clear(); 
       for (let ingredient of recipe.ingredients) {
-        (<FormArray>this.recipeForm.get('ingredients')).push(
-          new FormGroup({
-            'ingredientName': new FormControl(ingredient.name, Validators.required),
-            'amount': new FormControl(ingredient.amount,[
+        (<UntypedFormArray>this.recipeForm.get('ingredients')).push(
+          new UntypedFormGroup({
+            'ingredientName': new UntypedFormControl(ingredient.name, Validators.required),
+            'amount': new UntypedFormControl(ingredient.amount,[
               Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)])
           })
         );
@@ -72,16 +72,16 @@ export class RecipeEditComponent implements OnInit {
   }
   }
 
-  newIngredients(): FormGroup {
-    return new FormGroup({
-      'ingredientName': new FormControl('xxx', Validators.required),
-      'amount': new FormControl(0,[
+  newIngredients(): UntypedFormGroup {
+    return new UntypedFormGroup({
+      'ingredientName': new UntypedFormControl('xxx', Validators.required),
+      'amount': new UntypedFormControl(0,[
         Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)])
     });
   }
 
   get ingredientArray() {
-    return <FormArray>this.recipeForm.get('ingredients');
+    return <UntypedFormArray>this.recipeForm.get('ingredients');
   }
 
   addIngredientToArray() {
