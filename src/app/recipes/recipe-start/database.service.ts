@@ -24,6 +24,7 @@ export class DatabaseService {
     }
 
     fetchRecipes() {
+
             return this.http.get<Recipe[]>(
                 'https://recipe-2b968-default-rtdb.europe-west1.firebasedatabase.app/recipes.json'
         )

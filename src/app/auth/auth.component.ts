@@ -1,7 +1,9 @@
-import { Component } from '@angular/core'
+import { Component, ComponentFactoryResolver, ViewChild } from '@angular/core'
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { AlertComponenet } from '../shared/alert/alert.component';
+import { PlaceholderDirective } from '../shared/placeholder/placeholder.directive';
 import { AuthResponseData, AuthService } from './auth.service';
 
 
@@ -13,9 +15,13 @@ export class AuthComponent {
     isLoginMode = true;
     isLoading = false;
     error: string = null;
+    @ViewChild(PlaceholderDirective) alertHost: PlaceholderDirective;
+
+    private closeSub: Subscription;
 
     constructor(private authService: AuthService,
-                private router: Router) {}
+                private router: Router,
+                private componentFactoryResolver: ComponentFactoryResolver) {}
 
     onSwitchMode() {
         this.isLoginMode = !this.isLoginMode;
@@ -45,10 +51,32 @@ export class AuthComponent {
         }, (errorMessage) => {
             console.log(errorMessage);
             this.error = errorMessage;
+            this.handleError(errorMessage);
             this.isLoading = false;
         }
     );
 
         form.reset();
     }
+
+    onHandleError() {
+        this.error = null;
+    }
+
+    private handleError(message: string) {
+        const cmpAlertFactory = this.componentFactoryResolver.resolveComponentFactory(AlertComponenet);
+
+        const hostViewContainerRef = this.alertHost.viewContainerRef;
+        hostViewContainerRef.clear();
+
+        const containerRef = hostViewContainerRef.createComponent(cmpAlertFactory);
+
+        containerRef.instance.message = message;
+        this.closeSub = containerRef.instance.close.subscribe(() => {
+            hostViewContainerRef.clear()
+            this.closeSub.unsubscribe();
+        })
+    }
+
+   
 }
