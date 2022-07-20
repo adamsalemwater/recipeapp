@@ -14,11 +14,7 @@ import { ShoppingRoutingModule } from "./shopping-routing.module";
     imports: [
         ShoppingRoutingModule,
         SharedModule,
-        FormsModule
-    ],
-    exports: [
-        ShoppingListComponent,
-        ShoppingEditComponent
+        FormsModule,
     ],
     providers: [LoggingService]
 
